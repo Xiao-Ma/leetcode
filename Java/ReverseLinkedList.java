@@ -20,15 +20,32 @@ public class ReverseLinkedList {
 		return helper(head, first);
     }
     public ListNode helper(ListNode head, ListNode first) {
-		if (first.next != null) {
-			ListNode tmp = first;
-			first = first.next;
-			tmp.next = head;
-			head = tmp;
-			return helper(head, first);
-		} else {
-			first.next = head;
-			return first;
-		}
+	if (first.next != null) {
+		ListNode tmp = first;
+		first = first.next;
+		tmp.next = head;
+		head = tmp;
+		return helper(head, first);
+	} else {
+		first.next = head;
+		return first;
 	}
+    }
+    
+    public ListNode reverseListIterative(ListNode head) {
+        if (head == null || head.next == null) {
+        	return head;
+        }
+
+        ListNode cur = head.next;
+        head.next = null;
+        
+        while (cur != null) {
+        	ListNode tmp = cur;
+        	cur = cur.next;
+        	tmp.next = head;
+        	head = tmp;
+        }
+        return head;
+    }
 }
