@@ -13,58 +13,55 @@ public class NQueens {
         }
         int i = 0;
         int j = 0;
-        List<int[]> state = new ArrayList<int[]>();
+        int[] state = new int[n];
+        for (int c = 0; c < n; c++) {
+            state[c] = -1;
+        }
         while (i < n && i >= 0) {
-        	int[] cur = new int[2];
             if (j >= n) {
                 i--;
                 if (i < 0) {
                 	break;
                 }
-                j = state.get(state.size() - 1)[1] +1;
-                state.remove((state.size() - 1));
+                j = state[i] + 1;
+                state[i] = -1;
                 continue;
             }
-            cur[0] = i;
-            cur[1] = j;
-            if (canPlace(state, cur)) {
-                state.add(cur);
-                if (state.size() == n) {
+            if (canPlace(state, i, j)) {
+                state[i] = j;
+                if (i == (n - 1)) {
                     String[] tmp = draw(state, n);
                     result.add(tmp);
-                    state.remove(state.size() - 1);
+                    state[i] = -1;
                     j++;
                 } else {
                 	j = 0;
                 	i++;
                 }
-                continue;
-            } else if (j < n) {
+            } else {
                 j++;
-                continue;
             }
         }
         return result;
     }
-    public boolean canPlace(List<int[]> s, int[] a) {
-        if (s.size() == 0) {
+    public boolean canPlace(int[] s, int a, int b) {
+        if (s[0] == -1) {
             return true;
         }
-        for (int i = 0; i < s.size(); i++) {
-            if (a[1] == s.get(i)[1] || 
-                Math.abs(a[0] - s.get(i)[0]) == Math.abs(a[1] - s.get(i)[1])) {
+        for (int i = 0; i < s.length && s[i] != -1; i++) {
+            if (s[i] == b || Math.abs(i - a) == Math.abs(s[i] - b)) {
                     return false;
             }
         }
         return true;
     }
-    public String[] draw(List<int[]> s, int n) {
+    public String[] draw(int[] s, int n) {
         String[] str_arr = new String[n];
-    	for (int i = 0; i < s.size(); i++) {
-    		String str = "";
-            int q = s.get(i)[1];
+    	for (int i = 0; i < n; i++) {
+            String str = "";
+            int tmp = s[i];
             for (int j = 0; j < n; j++) {
-                if (j != q) {
+                if (j != tmp) {
                     str += '.';
                 } else {
                     str += 'Q';
