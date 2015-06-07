@@ -1,0 +1,16 @@
+CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT
+BEGIN
+  IF (SELECT COUNT(DISTINCT(Salary)) FROM Employee) < N THEN
+    RETURN null;
+  ELSE
+  RETURN (
+    SELECT MIN(Salary)
+      FROM (
+        SELECT DISTINCT Salary
+        FROM Employee
+        ORDER BY Salary DESC
+        LIMIT N
+      ) V
+  );
+  END IF;
+END
