@@ -51,4 +51,32 @@ public class Solution {
             }
         }
     }
+    /**
+     * Using bit manipulation: for the corresponding  digit 1 stands for the existence
+     * for the number.
+     */
+    public List<List<Integer>> subsetsS2(int[] nums) {
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        if (nums == null || nums.length == 0) {
+            return result;
+        }
+        int len = nums.length;
+        qsort(nums, 0, len - 1);
+        for (int i = 0; i < Math.pow(2, len); i++) {
+            List<Integer> tmp = new ArrayList<Integer>();
+            int num = i;
+            int is = 0;
+            int cnt = 0;
+            while (num > 0) {
+                is = num % 2;
+                num /= 2;
+                if (is == 1) {
+                    tmp.add(nums[cnt]);
+                }
+                cnt++;
+            }
+            result.add(tmp);
+        }
+        return result;
+    }
 }
