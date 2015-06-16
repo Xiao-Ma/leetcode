@@ -24,14 +24,14 @@ public class Solution {
         int i = start;
         int j = end;
         while (i < j) {
-            while (S[i] < pivot && i < j) {
-                i++;
-            }
-            S[j] = S[i];
-            while (S[j] >= pivot && i < j) {
+            while (S[j] > pivot && i < j) {
                 j--;
             }
             S[i] = S[j];
+            while (S[i] <= pivot && i < j) {
+                i++;
+            }
+            S[j] = S[i];
         }
         S[i] = pivot;
         if (start < i - 1) {
