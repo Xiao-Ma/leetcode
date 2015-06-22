@@ -18,18 +18,19 @@ public class Permutations2 {
         cur.add(nums[0]);
         result.add(new ArrayList<Integer>(cur));
         for (int i = 1; i < nums.length; i++) {
-            cur = result.get(0);
-            while (cur.size() < i) {
-                for (int j = 0; j <= i; j++) {
-                    while (j != 0 && cur.get(j) == nums[i]) {
-                        j++;
-                    }
-                    cur.add(j, nums[i]);
-                    result.add(new ArrayList<Integer>(cur));
+            while (result.get(0).size() == i) {
+            	cur = result.get(0);
+                for (int j = i; j >= 0; j--) {
+            		if (j != i && cur.get(j) == nums[i]) {
+            			break;
+            		}
+            		cur.add(j, nums[i]);
+            		result.add(new ArrayList<Integer>(cur));
                     cur.remove(j);
-                }
-            }
-            result.remove(0);
+            	}
+                result.remove(0);
+            }   
         }
+        return result;
     }
 }
