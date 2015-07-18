@@ -12,40 +12,31 @@
 
 public class ReverseLinkedList {
     public ListNode reverseList(ListNode head) {
+        //recursive
         if (head == null || head.next == null) {
         	return head;
         }
-		ListNode first = head.next;
+		ListNode rest = head.next;
 		head.next = null;
-		return helper(head, first);
+        ListNode reverse = reverseList(rest);
+        rest.next = head;
+		return reverse;
     }
-    public ListNode helper(ListNode head, ListNode first) {
-	if (first.next != null) {
-		ListNode tmp = first;
-		first = first.next;
-		tmp.next = head;
-		head = tmp;
-		return helper(head, first);
-	} else {
-		first.next = head;
-		return first;
-	}
-    }
-    
     public ListNode reverseListIterative(ListNode head) {
+        //iterative
         if (head == null || head.next == null) {
-        	return head;
+            return head;
         }
-
-        ListNode cur = head.next;
-        head.next = null;
-        
-        while (cur != null) {
-        	ListNode tmp = cur;
-        	cur = cur.next;
-        	tmp.next = head;
-        	head = tmp;
+        ListNode Dummy = new ListNode(0);
+        Dummy.next = head;
+        ListNode p = head;
+        ListNode q = head.next;
+        while (q != null) {
+            p.next = q.next;
+            q.next = Dummy.next;
+            Dummy.next = q;
+            q = p.next;
         }
-        return head;
+        return Dummy.next;
     }
 }
