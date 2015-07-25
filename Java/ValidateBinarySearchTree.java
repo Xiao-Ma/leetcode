@@ -9,6 +9,7 @@
  *              greater than the node's key.
  *              Both the left and right subtrees must also be binary search 
  *              trees.
+ * Note: when the smallest number in the tree is equal to Integer.MIN_VALUE...
  */
  
 /*
@@ -23,6 +24,7 @@ public class TreeNode {
 */
 public class ValidateBinarySearchTree {
     private int prev = Integer.MIN_VALUE;
+    private boolean f = false;
     public boolean isValidBST(TreeNode root) {
         if (root == null) {
 			return true;
@@ -30,14 +32,42 @@ public class ValidateBinarySearchTree {
 		if (!isValidBST(root.left)) {
 			return false;
 		}
-		if (root.val > prev) {
-			prev = root.val;
-		} else {
+		if (f && root.val <= prev) {
 			return false;
 		}
+		prev = root.val;
+		f = true;
 		if (!isValidBST(root.right)) {
 			return false;
 		}
 		return true;
+    }
+    /*Sol2 without global variable, using in-order traversal.*/
+    public boolean isValidBSTSol2(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        Stack<TreeNode> s = new Stack<TreeNode>();
+        s.push(root);
+        int prev = Integer.MIN_VALUE;
+        boolean f = false;
+        TreeNode cur = root;
+        while (!s.isEmpty()) {
+            while (cur.left != null) {
+                cur = cur.left;
+                s.push(cur);
+            }
+            TreeNode t = s.pop();
+            if (f && t.val <= prev) {
+                return false;
+            }
+            f = true;
+            prev = t.val;
+            if (t.right != null) {
+                cur = t.right;
+                s.push(cur);
+            }
+        }
+        return true;
     }
 }
