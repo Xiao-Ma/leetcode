@@ -31,12 +31,34 @@ public class BalancedBinaryTree {
             return false;
         }
     }
-    public int getHeight(TreeNode t) {
+    private int getHeight(TreeNode t) {
         if (t == null) {
             return 0;
         }
         int l = getHeight(t.left);
         int r = getHeight(t.right);
         return Math.max(l, r) + 1;
+    }
+    /*Solution 2, use -1 to mark that the tree is not balanced.*/
+    public boolean isBalancedSol2(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        if (getHeight2(root) == -1) {
+            return false;
+        }
+        return true;
+    } 
+    private int getHeight2(TreeNode t) {
+        if (t == null) {
+            return 0;
+        }
+        int l = getHeight2(t.left);
+        int r = getHeight2(t.right);
+        if (Math.abs(l - r) > 1 || l == -1 || r == -1) {
+            return -1;
+        } else {
+            return Math.max(l, r) + 1;
+        }
     }
 }
