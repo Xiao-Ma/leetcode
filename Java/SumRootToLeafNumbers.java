@@ -27,24 +27,28 @@ public class SumRootToLeafNumbers {
             return root.val;
         }
         Stack<TreeNode> s = new Stack<TreeNode>();
+        Stack<Integer> s2 = new Stack<Integer>();
         int num = root.val;
         int sum = 0;
         TreeNode cur = root;
         s.push(root);
-        while (!s.isEmpty) {
+        s2.push(num);
+        while (!s.isEmpty()) {
             while(cur.left != null) {
                 cur = cur.left;
                 num = num * 10 + cur.val;
                 s.push(cur);
+                s2.push(num);
             }
             TreeNode t = s.pop();
+            num = s2.pop();
             if (t.right != null){
                 cur = t.right;
                 num = num * 10 + cur.val;
                 s.push(cur);
-            } else {
+                s2.push(num);
+            } else if (t.left == null){
                 sum += num;
-                num /= 10;
             }
         }
         return sum;
