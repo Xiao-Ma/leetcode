@@ -15,14 +15,14 @@ public class ContainsDuplicate2 {
         Queue<Integer> q = new LinkedList<Integer>();
         HashSet<Integer> h = new HashSet<Integer>();
         for (int i = 0; i < nums.length; i++) {
-            if (q.size() == k) {
-                h.remove(q.offer());
+            if (q.size() > k) {
+                h.remove(q.poll());
             }
-            q.poll(nums[i]);
-                if (h.contains(nums[i])) {
-                    return true;
-                }
-                h.add(nums[i]);
+            q.offer(nums[i]);
+            if (h.contains(nums[i])) {
+                return true;
+            }
+            h.add(nums[i]);
         }
         return false;
     }
