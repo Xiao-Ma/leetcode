@@ -5,33 +5,31 @@
  *              by adding characters in front of it. Find and return the 
  *              shortest palindrome you can find by performing this 
  *              transformation.
- * Remark: not AC for time limit exceeded. Fix later.
+ * Idea: KMP to find longest same prefix and suffix
  */
  
 public class ShortestPalindrome {
     public String shortestPalindrome(String s) {
-        if (isPalindrome(s)) {
+        if (s == null || s.length() == 0 || s.length() == 1) {
             return s;
         }
-        int i = s.length() - 1;
-        for (; i >= 0; i--) {
-            if (isPalindrome(s.substring(0, i))) {
-                break;
+        String rev = reverse(s);
+        String combine = s + "*" + rev; //avoid s="aaa" -> combine="aaaaaa" which have maxK=6
+        int k = -1;
+        int i = 0;
+        int[] next = new int[combine.length()];
+        next[0] = -1;
+        while (i < combine.length() - 1) {
+            if (k == -1 || combine.charAt(i) == combine.charAt(k)) {
+                k++;
+                i++;
+                next[i] = k;
+            } else {
+                k = next[k];
             }
         }
-        return reverse(s.substring(i)) + s;
-        
-    }
-    private boolean isPalindrome(String s) {
-        if (s.length() <= 1) {
-            return true;
-        }
-        for (int i = 0, j = s.length() - 1; i <= j; i++, j--) {
-            if (s.charAt(i) != s.charAt(j)) {
-                return false;
-            }
-        }
-        return true;
+        //k = next[next.length - 1];
+        return rev.substring(0, s.length() - k - 1) + s;
     }
     private String reverse(String s) {
         int n = s.length();
