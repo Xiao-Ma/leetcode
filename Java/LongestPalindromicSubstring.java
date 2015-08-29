@@ -4,40 +4,45 @@
  * Description: Given a string S, find the longest palindromic substring in S. 
  *              You may assume that the maximum length of S is 1000, and there 
  *              exists one unique longest palindromic substring.
- * Remark: time limit exceeded.. fix later.
+ * Idea: First try: reverse the string and find the LCS.. get time limit exceed.
+ *       However, this is a wrong thought!! e.g: "abcdecba" -> "abcedcba" they 
+ *       have "abc" or "cba" in common while they are not palindrome.
+ *       Second try: DP. If s[i] = s[j] state[i][j] = state[i + 1][j - 1]. 
  */
  
 public class LongestPalindromicSubstring {
     public String longestPalindrome(String s) {
-        return LCS(s, reverse(s));
-    }
-    private String reverse(String s) {
-        int n = s.length();
-        char[] rev = new char[n];
-        for(int i = 0; i < n; i++) {
-            rev[i] = s.charAt(n-i-1);
+        if (s == null || s.length() == 1) {
+            return s;
         }
-        return new String(rev);
-    }
-    private String LCS(String s1, String s2) {
-        int[][] state = new int[s1.length()][s2.length()];
+        boolean[][] state = new boolean[s.length()][s.length()];
+        int start = 0;
         int end = 0;
         int max = 0;
-        for (int i = 0; i < s1.length(); i++) {
-            for (int j = 0; j < s2.length(); j++) {
-                if (s1.charAt(i) == s2.charAt(j)) {
-                    if (i == 0 || j == 0) {
-                        state[i][j] = 1;
-                    } else {
-                        state[i][j] = state[i - 1][j - 1] + 1;
+        for (int j = 0; j < s.length(); j++) {
+            for (int i = 0; i <= j; i++) {
+                if (i == j) {
+                    state[i][j] = true;
+                } else if (j - i == 1) {
+                    if (s.charAt(i) == s.charAt(j)) {
+                        state[i][j] = true;
+                        if (j - i > max) {
+                        	max = j - i;
+                        	start = i;
+                        	end = j;
+                        }
                     }
-                    if (state[i][j] > max) {
-                        max = state[i][j];
-                        end = i;
+                } else if (s.charAt(i) == s.charAt(j) && state[i + 1][j - 1]) {
+                    state[i][j] = true;
+                    if (j - i > max) {
+                        max = j - i;
+                        start = i;
+                        end = j;
                     }
                 }
             }
         }
-        return s1.substring(end - max + 1, end + 1);
+        return s.substring(start, end + 1);
     }
+    
 }
