@@ -18,25 +18,19 @@ public class TreeNode {
 public class BinaryTreeInorderTraversal {
     public List<Integer> inorderTraversal(TreeNode root) {
         List<Integer> result = new ArrayList<Integer>();
-        if (root == null) {
-            return result;
-        }
-        Stack<TreeNode> s = new Stack<TreeNode>();
-        s.push(root);
-        TreeNode cur = root;
-        while (!s.isEmpty()) {
-            while (cur.left != null) {
-                cur = cur.left;
-                s.push(cur);
-            }
-            TreeNode t = s.pop();
-            result.add(t.val);
-            if (t.right != null) {
-                s.push(t.right);
-                cur = t.right;
-            }
-        }
-        return result;
+        if (root == null) return result;
+		Stack<TreeNode> s = new Stack<TreeNode>();
+		TreeNode cur = root;
+		while (!s.isEmpty() || cur != null) {
+			while (cur != null) {
+				s.push(cur);
+				cur = cur.left;
+			}
+			cur = s.pop();
+			result.add(cur.val);
+			cur = cur.right;
+		}
+		return result;
     }
     /*recursive solution.*/
     private List<Integer> r = new ArrayList<Integer>();

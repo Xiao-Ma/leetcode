@@ -18,29 +18,26 @@ public class TreeNode {
 public class BinaryTreePostorderTraversal {
     public List<Integer> postorderTraversal(TreeNode root) {
         List<Integer> result = new ArrayList<Integer>();
-        if (root == null) {
-            return result;
-        }
-        Stack<TreeNode> s = new Stack<TreeNode>();
-        s.push(root);
-        TreeNode prev = null;
-        TreeNode cur = root;
-        while (!s.isEmpty()) {
-            while (cur != null && cur.left != null) {
-                cur = cur.left;
-                s.push(cur);
-            }
-            cur = s.peek();
-            if (cur.right != null && cur.right != prev) {
-                cur = cur.right;
-                s.push(cur);
-            } else {
-                result.add(cur.val);
-                prev = s.pop();
-                cur = null; //indicate left tree searched
-            }
-        }
-        return result;
+	    if (root == null) return result;
+	    Stack<TreeNode> s = new Stack<TreeNode>();
+	    TreeNode cur = root;
+	    TreeNode prev = null;
+	    while (!s.isEmpty() || cur != null) {
+	    	while (cur != null) {
+	    		s.push(cur);
+	    		cur = cur.left;
+	    	}
+	    	cur = s.peek();
+            //if cur's right child is empty or is traversed
+	    	if (cur.right == null || cur.right == prev) { 
+	    		prev = s.pop();
+	    		result.add(prev.val);
+	    		cur = null; //cur already traversed
+	    	} else {
+	            cur = cur.right;
+	    	}
+	    }
+	    return result;
     }
     /*recursive solution.*/
     private List<Integer> r = new ArrayList<Integer>();
