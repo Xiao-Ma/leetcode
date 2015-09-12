@@ -9,4 +9,38 @@
  *              routine?
  * Idea: binary search
  */
- 
+
+/*
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode(int x) {
+        val = x;
+    }
+}
+*/ 
+public class KthSmallestElementInABST {
+    public int kthSmallest(TreeNode root, int k) {
+        if (root == null) {
+            return Integer.MIN_VALUE;
+        }
+        int cnt = 1;
+        Stack<TreeNode> s = new Stack<TreeNode>();
+        TreeNode cur = root;
+        while (!s.isEmpty() || cur != null) {
+            while (cur != null) {
+                s.push(cur);
+                cur = cur.left;
+            }
+            cur = s.pop();
+            if (cnt == k) {
+                return cur.val;
+            } else {
+                cnt++;
+            }
+            cur = cur.right;
+        }
+        return Integer.MIN_VALUE;
+    }
+}
