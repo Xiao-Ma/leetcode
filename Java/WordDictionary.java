@@ -68,11 +68,12 @@ public class WordDictionary {
                 return false;
             }
         }
-        if (word.charAt(start) == '.' || word.charAt(start) == t.list.get(pos).val) {
-            return dfs(t.list.get(pos), 0, word, start + 1);
-        } else {
-            return dfs(t, pos + 1, word, start);
+        if (word.charAt(start) == '.' && t.list.get(pos).val != '#' || word.charAt(start) == t.list.get(pos).val) {
+            if (dfs(t.list.get(pos), 0, word, start + 1)) {
+                return true;
+            }
         }
+        return dfs(t, pos + 1, word, start);
     }
 }
 
