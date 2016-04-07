@@ -33,4 +33,27 @@ public class SortColors {
             nums[i] = 2;
         }
     }
+    
+    /*Solution 2: keep track of first 1 and first 2. */
+    public void sortColors2(int[] nums) {
+        int p1 = 0;
+        int p2 = nums.length - 1;
+        int i = 0;
+        while (i < p2 + 1) {
+            if (nums[i] == 0) {
+                int tmp = nums[i];
+                nums[i] = nums[p1];
+                nums[p1] = tmp;
+                p1++;
+                i++;
+            } else if (nums[i] == 2) {
+                int tmp = nums[i];
+                nums[i] = nums[p2];
+                nums[p2] = tmp;
+                p2--;
+            } else {
+                i++;
+            }
+        }
+    }
 }

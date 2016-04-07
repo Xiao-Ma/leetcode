@@ -6,6 +6,8 @@
  *              each row are sorted from left to right. The first integer of 
  *              each row is greater than the last integer of the previous row.
  * Idea: binary search row first, then column.
+ *       method 2: search from left bottom, if less than target, move right; if
+ *       larger than target, move up. (the same as Search 2D Matrix II)
  */
  
 public class SearchA2DMatrix {
@@ -49,6 +51,25 @@ public class SearchA2DMatrix {
         }
         if (matrix[row][start] == target || matrix[row][end] == target) {
             return true;
+        }
+        return false;
+    }
+    public boolean searchMatrix2(int[][] matrix, int target) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return false;
+        }
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int i = m - 1;
+        int j = 0;
+        while (i >= 0 && j < n) {
+            if (matrix[i][j] == target) {
+                return true;
+            } else if (matrix[i][j] < target) {
+                j++;
+            } else {
+                i--;
+            }
         }
         return false;
     }
